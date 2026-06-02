@@ -359,18 +359,7 @@ export default function Index() {
                     Как это работает
                   </Button>
                 </div>
-                <div className="flex gap-8 mt-8">
-                  {[
-                    { label: "Объявлений", value: "1 240" },
-                    { label: "Продавцов", value: "380" },
-                    { label: "Сделок", value: "4 800+" },
-                  ].map((s) => (
-                    <div key={s.label}>
-                      <div className="font-display text-2xl text-primary font-semibold">{s.value}</div>
-                      <div className="text-muted-foreground text-[10px] uppercase tracking-widest">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
+
               </div>
             </div>
 
