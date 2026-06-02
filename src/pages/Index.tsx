@@ -361,7 +361,7 @@ export default function Index() {
             </div>
 
             {/* Categories */}
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar">
+            <div className="flex gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar items-center">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
@@ -376,14 +376,16 @@ export default function Index() {
                   {cat.label}
                 </button>
               ))}
-            </div>
-
-            {/* Примечание об оружии */}
-            <div className="flex items-start gap-3 bg-card border border-primary/20 rounded-sm p-3 mb-4">
-              <Icon name="Clock" size={15} className="text-primary mt-0.5 shrink-0" />
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                <span className="text-foreground font-medium">Скоро:</span> категории «Приводы», «Пистолеты» и «Магазины» появятся в ближайшее время — пользователи смогут размещать объявления о продаже страйкбольного оружия.
-              </p>
+              {/* Скоро */}
+              <div className="relative group shrink-0">
+                <div className="w-8 h-8 flex items-center justify-center rounded-sm border border-border bg-card cursor-default">
+                  <Icon name="Clock" size={15} className="text-emerald-500" />
+                </div>
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 bg-card border border-border rounded-sm px-3 py-2 text-xs text-muted-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-normal text-center">
+                  Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
+                  <span className="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 border-b border-r border-border bg-card rotate-45 -mt-1 block" />
+                </div>
+              </div>
             </div>
 
             <div className="flex items-center justify-between mb-4">
