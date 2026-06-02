@@ -155,7 +155,7 @@ export default function Index() {
   const getTooltipPos = () => {
     if (!clockBtnRef.current) return { top: 0, left: 0 };
     const r = clockBtnRef.current.getBoundingClientRect();
-    return { top: r.bottom + window.scrollY + 8, left: r.left + window.scrollX + r.width / 2 };
+    return { top: r.top + window.scrollY - 8, left: r.left + window.scrollX + r.width / 2 };
   };
 
   const filteredListings = LISTINGS.filter((l) => {
@@ -391,16 +391,17 @@ export default function Index() {
                   onMouseEnter={() => setShowComingSoon(true)}
                   onMouseLeave={() => setShowComingSoon(false)}
                   onClick={() => setShowComingSoon(!showComingSoon)}
-                  className="w-8 h-8 flex items-center justify-center rounded-sm border border-border bg-card"
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium uppercase tracking-wide border border-border bg-card text-emerald-500 whitespace-nowrap"
                 >
-                  <Icon name="Clock" size={15} className="text-emerald-500" />
+                  <Icon name="Clock" size={13} className="text-emerald-500" />
+                  Скоро
                 </button>
                 {showComingSoon && (() => {
                   const pos = getTooltipPos();
                   return (
                     <div
                       className="fixed z-50 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in"
-                      style={{ top: pos.top, left: pos.left, transform: 'translateX(-50%)' }}
+                      style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -100%)' }}
                       onMouseEnter={() => setShowComingSoon(true)}
                       onMouseLeave={() => setShowComingSoon(false)}
                     >
