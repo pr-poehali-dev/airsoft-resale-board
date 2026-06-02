@@ -976,7 +976,7 @@ export default function Index() {
               </button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">© 2024 Хопап</p>
+          <p className="text-xs text-muted-foreground">© 2026 Хопап</p>
         </div>
       </footer>
     </div>
