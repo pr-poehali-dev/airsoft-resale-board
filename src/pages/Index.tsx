@@ -341,7 +341,7 @@ export default function Index() {
               </div>
               <div className="relative px-6 py-10 md:py-14">
                 <p className="text-primary text-xs font-medium uppercase tracking-[0.25em] mb-2">
-                  Верифицированный маркетплейс
+                  Создаем надежную площадку для перепродажи
                 </p>
                 <h1 className="font-display text-3xl md:text-5xl font-semibold uppercase tracking-wide text-foreground mb-3 leading-tight">
                   Страйкбольное<br />снаряжение б/у
