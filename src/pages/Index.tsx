@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Icon from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -149,6 +149,14 @@ export default function Index() {
   const [favorites, setFavorites] = useState<number[]>([2]);
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [showComingSoon, setShowComingSoon] = useState(false);
+  const clockBtnRef = useRef<HTMLButtonElement>(null);
+
+  const getTooltipPos = () => {
+    if (!clockBtnRef.current) return { top: 0, left: 0 };
+    const r = clockBtnRef.current.getBoundingClientRect();
+    return { top: r.bottom + window.scrollY + 8, left: r.left + window.scrollX + r.width / 2 };
+  };
 
   const filteredListings = LISTINGS.filter((l) => {
     const catMatch = selectedCategory === "all" || l.category === selectedCategory;
@@ -377,14 +385,29 @@ export default function Index() {
                 </button>
               ))}
               {/* Скоро */}
-              <div className="relative group shrink-0">
-                <div className="w-8 h-8 flex items-center justify-center rounded-sm border border-border bg-card cursor-default">
+              <div className="shrink-0">
+                <button
+                  ref={clockBtnRef}
+                  onMouseEnter={() => setShowComingSoon(true)}
+                  onMouseLeave={() => setShowComingSoon(false)}
+                  onClick={() => setShowComingSoon(!showComingSoon)}
+                  className="w-8 h-8 flex items-center justify-center rounded-sm border border-border bg-card"
+                >
                   <Icon name="Clock" size={15} className="text-emerald-500" />
-                </div>
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 bg-card border border-border rounded-sm px-3 py-2 text-xs text-muted-foreground shadow-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 whitespace-normal text-center">
-                  Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
-                  <span className="absolute left-1/2 -translate-x-1/2 top-full w-2 h-2 border-b border-r border-border bg-card rotate-45 -mt-1 block" />
-                </div>
+                </button>
+                {showComingSoon && (() => {
+                  const pos = getTooltipPos();
+                  return (
+                    <div
+                      className="fixed z-50 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in"
+                      style={{ top: pos.top, left: pos.left, transform: 'translateX(-50%)' }}
+                      onMouseEnter={() => setShowComingSoon(true)}
+                      onMouseLeave={() => setShowComingSoon(false)}
+                    >
+                      Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
+                    </div>
+                  );
+                })()}
               </div>
             </div>
 
