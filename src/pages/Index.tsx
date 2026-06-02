@@ -150,7 +150,18 @@ export default function Index() {
   const [selectedListing, setSelectedListing] = useState<number | null>(null);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
+  const [tooltipLeft, setTooltipLeft] = useState(0);
   const clockBtnRef = useRef<HTMLButtonElement>(null);
+
+  const handleClockEnter = () => {
+    if (clockBtnRef.current) {
+      const r = clockBtnRef.current.getBoundingClientRect();
+      const parent = clockBtnRef.current.closest(".categories-wrap");
+      const parentLeft = parent ? parent.getBoundingClientRect().left : 0;
+      setTooltipLeft(r.left - parentLeft + r.width / 2);
+    }
+    setShowComingSoon(true);
+  };
 
   const filteredListings = LISTINGS.filter((l) => {
     const catMatch = selectedCategory === "all" || l.category === selectedCategory;
@@ -363,7 +374,7 @@ export default function Index() {
             </div>
 
             {/* Categories */}
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-1 no-scrollbar items-center">
+            <div className="categories-wrap flex gap-2 overflow-x-auto pb-2 mb-1 no-scrollbar items-center">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
@@ -381,7 +392,7 @@ export default function Index() {
               {/* Скоро */}
               <button
                 ref={clockBtnRef}
-                onMouseEnter={() => setShowComingSoon(true)}
+                onMouseEnter={handleClockEnter}
                 onMouseLeave={() => setShowComingSoon(false)}
                 className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium uppercase tracking-wide border border-border bg-card text-emerald-500 whitespace-nowrap"
               >
@@ -393,7 +404,9 @@ export default function Index() {
             {/* Тултип — вне overflow контейнера */}
             <div className="relative mb-4 h-0">
               {showComingSoon && (
-                <div className="absolute left-0 -top-2 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in z-50"
+                <div
+                  className="absolute -top-2 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in z-50"
+                  style={{ left: tooltipLeft, transform: "translateX(-50%)" }}
                   onMouseEnter={() => setShowComingSoon(true)}
                   onMouseLeave={() => setShowComingSoon(false)}
                 >
