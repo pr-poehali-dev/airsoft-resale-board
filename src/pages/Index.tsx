@@ -3,6 +3,7 @@ import Icon from "@/components/ui/icon";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/hooks/useAuth";
 
 const IMG1 = "https://cdn.poehali.dev/projects/073f3d40-c452-4c4c-9110-284be112666b/files/e0dec8eb-7383-4350-a389-787553df16c7.jpg";
 const IMG2 = "https://cdn.poehali.dev/projects/073f3d40-c452-4c4c-9110-284be112666b/files/59e98033-056f-4a07-ade2-784864b4417c.jpg";
@@ -142,6 +143,9 @@ const Stars = ({ rating }: { rating: number }) => (
 );
 
 export default function Index() {
+  const { user, state: authState, error: authError, loginWithEsia, logout } = useAuth();
+  const isAuth = authState === "authenticated";
+
   const [page, setPage] = useState<Page>("listings");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
@@ -231,6 +235,40 @@ export default function Index() {
             ))}
           </nav>
 
+          {/* Auth button — desktop */}
+          <div className="hidden md:flex items-center shrink-0">
+            {authState === "loading" ? (
+              <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            ) : isAuth && user ? (
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-secondary rounded-sm border border-border">
+                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-[10px] font-bold text-primary-foreground">
+                    {(user.last_name || user.first_name || "П")[0]}
+                  </div>
+                  <span className="text-xs text-foreground">
+                    {user.first_name || user.last_name || "Профиль"}
+                  </span>
+                  <span className="badge-verified text-[9px] px-1 py-0.5 rounded-sm font-medium">✓</span>
+                </div>
+                <button
+                  onClick={logout}
+                  className="p-1.5 text-muted-foreground hover:text-foreground transition-colors"
+                  title="Выйти"
+                >
+                  <Icon name="LogOut" size={15} />
+                </button>
+              </div>
+            ) : (
+              <Button
+                onClick={loginWithEsia}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider text-xs h-8 px-3 gap-1.5"
+              >
+                <Icon name="Shield" size={13} />
+                Войти через Госуслуги
+              </Button>
+            )}
+          </div>
+
           <button
             className="md:hidden p-2 text-muted-foreground hover:text-foreground"
             onClick={() => setMobileMenu(!mobileMenu)}
@@ -266,6 +304,25 @@ export default function Index() {
                   {item.label}
                 </button>
               ))}
+              <div className="pt-2 border-t border-border mt-2">
+                {isAuth && user ? (
+                  <button
+                    onClick={() => { logout(); setMobileMenu(false); }}
+                    className="flex items-center gap-3 w-full px-2 py-2.5 text-sm text-muted-foreground hover:text-foreground rounded-sm transition-colors"
+                  >
+                    <Icon name="LogOut" size={16} />
+                    Выйти ({user.first_name || user.last_name})
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => { loginWithEsia(); setMobileMenu(false); }}
+                    className="flex items-center gap-3 w-full px-2 py-2.5 text-sm text-primary font-medium rounded-sm transition-colors hover:bg-secondary"
+                  >
+                    <Icon name="Shield" size={16} />
+                    Войти через Госуслуги
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -475,10 +532,20 @@ export default function Index() {
                     {currentListing.price.toLocaleString("ru-RU")} ₽
                   </div>
                   <p className="text-xs text-muted-foreground mb-4">Торг уточняйте у продавца</p>
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider mb-2">
-                    <Icon name="MessageCircle" size={15} className="mr-2" />
-                    Написать продавцу
-                  </Button>
+                  {isAuth ? (
+                    <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider mb-2">
+                      <Icon name="MessageCircle" size={15} className="mr-2" />
+                      Написать продавцу
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={loginWithEsia}
+                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider mb-2"
+                    >
+                      <Icon name="Shield" size={15} className="mr-2" />
+                      Войти, чтобы написать
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     className="w-full border-border text-foreground hover:bg-secondary font-display uppercase tracking-wider text-sm"
@@ -676,59 +743,107 @@ export default function Index() {
               <Icon name="User" size={20} className="text-primary" />
               Профиль
             </h2>
-            <div className="bg-card border border-border rounded-sm p-6 mb-4">
-              <div className="flex items-center gap-5 mb-6">
-                <div className="w-16 h-16 rounded-full bg-secondary border border-border flex items-center justify-center font-display text-2xl font-bold text-foreground">
-                  А
+
+            {/* Не авторизован */}
+            {!isAuth ? (
+              <div className="bg-card border border-border rounded-sm p-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-secondary border border-border flex items-center justify-center mx-auto mb-4">
+                  <Icon name="User" size={28} className="text-muted-foreground" />
                 </div>
-                <div>
-                  <h3 className="font-display text-xl uppercase tracking-wide text-foreground">Алексей К.</h3>
-                  <p className="text-xs text-muted-foreground mb-1">На платформе с 2021 года</p>
-                  <span className="badge-verified text-[10px] px-2 py-0.5 rounded-sm font-medium uppercase">
-                    ✓ Верифицирован
-                  </span>
-                </div>
+                <h3 className="font-display text-lg uppercase tracking-wide text-foreground mb-2">
+                  Войдите в аккаунт
+                </h3>
+                <p className="text-sm text-muted-foreground mb-6 max-w-xs mx-auto">
+                  Для размещения объявлений и общения с продавцами необходима авторизация через Госуслуги
+                </p>
+                {authError && (
+                  <p className="text-xs text-destructive mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-sm">
+                    {authError}
+                  </p>
+                )}
+                <Button
+                  onClick={loginWithEsia}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider px-6"
+                >
+                  <Icon name="Shield" size={15} className="mr-2" />
+                  Войти через Госуслуги
+                </Button>
+                <p className="text-[10px] text-muted-foreground mt-4">
+                  Авторизация через ЕСИА — ваши данные защищены государственной системой
+                </p>
               </div>
-              <div className="grid grid-cols-3 gap-3 mb-5">
-                {[
-                  { label: "Сделок", value: "47" },
-                  { label: "Рейтинг", value: "4.9" },
-                  { label: "Отзывов", value: "41" },
-                ].map((s) => (
-                  <div key={s.label} className="bg-secondary rounded-sm p-3 text-center">
-                    <div className="font-display text-2xl text-primary font-semibold">{s.value}</div>
-                    <div className="text-[10px] text-muted-foreground uppercase tracking-widest">{s.label}</div>
+            ) : (
+              <>
+                <div className="bg-card border border-border rounded-sm p-6 mb-4">
+                  <div className="flex items-center gap-5 mb-6">
+                    <div className="w-16 h-16 rounded-full bg-secondary border border-border flex items-center justify-center font-display text-2xl font-bold text-foreground">
+                      {user ? (user.last_name || user.first_name || "П")[0] : "?"}
+                    </div>
+                    <div>
+                      <h3 className="font-display text-xl uppercase tracking-wide text-foreground">
+                        {user ? [user.last_name, user.first_name, user.middle_name].filter(Boolean).join(" ") || "Пользователь" : "Пользователь"}
+                      </h3>
+                      {user?.member_since && (
+                        <p className="text-xs text-muted-foreground mb-1">На платформе с {user.member_since} года</p>
+                      )}
+                      {user?.email && (
+                        <p className="text-xs text-muted-foreground mb-1">{user.email}</p>
+                      )}
+                      <span className="badge-verified text-[10px] px-2 py-0.5 rounded-sm font-medium uppercase">
+                        ✓ Верифицирован через Госуслуги
+                      </span>
+                    </div>
                   </div>
-                ))}
-              </div>
-              <div className="space-y-1">
-                {[
-                  { label: "Мои объявления", sub: "3 активных", icon: "LayoutGrid" },
-                  { label: "История сделок", sub: "47 сделок", icon: "History" },
-                  { label: "Мои отзывы", sub: "41 отзыв", icon: "Star" },
-                  { label: "Верификация", sub: "Документы подтверждены", icon: "ShieldCheck" },
-                  { label: "Настройки", sub: "", icon: "Settings" },
-                ].map((item) => (
-                  <button
-                    key={item.label}
-                    className="w-full flex items-center justify-between p-3 rounded-sm hover:bg-secondary transition-colors text-left"
+                  <div className="grid grid-cols-3 gap-3 mb-5">
+                    {[
+                      { label: "Сделок", value: "0" },
+                      { label: "Рейтинг", value: "—" },
+                      { label: "Отзывов", value: "0" },
+                    ].map((s) => (
+                      <div key={s.label} className="bg-secondary rounded-sm p-3 text-center">
+                        <div className="font-display text-2xl text-primary font-semibold">{s.value}</div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-widest">{s.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="space-y-1">
+                    {[
+                      { label: "Мои объявления", sub: "0 активных", icon: "LayoutGrid" },
+                      { label: "История сделок", sub: "", icon: "History" },
+                      { label: "Мои отзывы", sub: "", icon: "Star" },
+                      { label: "Настройки", sub: "", icon: "Settings" },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="w-full flex items-center justify-between p-3 rounded-sm hover:bg-secondary transition-colors text-left"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Icon name={item.icon as "Star"} size={16} className="text-primary" />
+                          <span className="text-sm text-foreground">{item.label}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {item.sub && <span className="text-xs text-muted-foreground">{item.sub}</span>}
+                          <Icon name="ChevronRight" size={14} className="text-muted-foreground" />
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex gap-3">
+                  <Button className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider h-10">
+                    <Icon name="Plus" size={15} className="mr-2" />
+                    Разместить объявление
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="border-border text-foreground hover:bg-secondary font-display uppercase tracking-wider h-10 px-4"
+                    onClick={logout}
                   >
-                    <div className="flex items-center gap-3">
-                      <Icon name={item.icon as "Star"} size={16} className="text-primary" />
-                      <span className="text-sm text-foreground">{item.label}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {item.sub && <span className="text-xs text-muted-foreground">{item.sub}</span>}
-                      <Icon name="ChevronRight" size={14} className="text-muted-foreground" />
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider h-10">
-              <Icon name="Plus" size={15} className="mr-2" />
-              Разместить объявление
-            </Button>
+                    <Icon name="LogOut" size={15} />
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         )}
 

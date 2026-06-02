@@ -1,0 +1,38 @@
+{
+  "tests": [
+    {
+      "name": "GET /login без ESIA_CLIENT_ID — ошибка конфигурации",
+      "method": "GET",
+      "path": "/login",
+      "expectedStatus": 500,
+      "expectedBody": { "error": "ESIA_CLIENT_ID не настроен" },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "POST /callback без code — ошибка валидации",
+      "method": "POST",
+      "path": "/callback",
+      "body": {},
+      "expectedStatus": 400,
+      "expectedBody": { "error": "Отсутствует code от ЕСИА" },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "GET /me без токена — 401",
+      "method": "GET",
+      "path": "/me",
+      "expectedStatus": 401,
+      "expectedBody": { "error": "Не авторизован" },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "POST /logout — всегда успех",
+      "method": "POST",
+      "path": "/logout",
+      "body": {},
+      "expectedStatus": 200,
+      "expectedBody": { "ok": true },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
