@@ -344,7 +344,7 @@ export default function Index() {
                   Страйкбольная барахолка
                 </p>
                 <h1 className="font-display text-3xl md:text-5xl font-semibold uppercase tracking-wide text-foreground mb-3 leading-tight">
-                  Страйкбольное<br />снаряжение новое и б/у
+                  Страйкбольное<br />снаряжение<br />новое и б/у
                 </h1>
                 <p className="text-muted-foreground text-sm max-w-md mb-6">
                   Покупай и продавай снаряжение среди проверенных игроков.<br />
