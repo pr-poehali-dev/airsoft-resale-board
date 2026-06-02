@@ -344,11 +344,11 @@ export default function Index() {
                   Создаем надежную площадку для перепродажи
                 </p>
                 <h1 className="font-display text-3xl md:text-5xl font-semibold uppercase tracking-wide text-foreground mb-3 leading-tight">
-                  Страйкбольное<br />снаряжение б/у
+                  Страйкбольное<br />снаряжение новое и б/у
                 </h1>
                 <p className="text-muted-foreground text-sm max-w-md mb-6">
                   Покупай и продавай снаряжение среди проверенных игроков.<br />
-                  Реальные отзывы. Защита сделок. Сообщество.
+                  Реальные отзывы. Сообщество.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider text-sm px-5 h-9">
