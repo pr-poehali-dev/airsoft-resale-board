@@ -201,7 +201,7 @@ export default function Index() {
               <Icon name="Crosshair" size={14} className="text-primary-foreground" />
             </div>
             <span className="font-display text-base font-semibold tracking-widest uppercase text-foreground">
-              Страйкмаркет
+              Хопап
             </span>
           </button>
 
@@ -856,9 +856,9 @@ export default function Index() {
             </h2>
             <div className="space-y-4">
               <div className="bg-card border border-border rounded-sm p-6">
-                <h3 className="font-display text-lg uppercase tracking-wide text-foreground mb-3">Что такое Страйкмаркет?</h3>
+                <h3 className="font-display text-lg uppercase tracking-wide text-foreground mb-3">Что такое Хопап?</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Страйкмаркет — специализированная доска объявлений для покупки и продажи страйкбольного снаряжения, бывшего в употреблении. Мы создаём безопасное пространство для сделок между игроками.
+                  Хопап — специализированная доска объявлений для покупки и продажи страйкбольного снаряжения, бывшего в употреблении. Мы создаём безопасное пространство для сделок между игроками.
                 </p>
               </div>
               {[
@@ -960,7 +960,7 @@ export default function Index() {
             <div className="w-5 h-5 bg-primary flex items-center justify-center">
               <Icon name="Crosshair" size={10} className="text-primary-foreground" />
             </div>
-            <span className="font-display text-sm uppercase tracking-widest text-muted-foreground">Страйкмаркет</span>
+            <span className="font-display text-sm uppercase tracking-widest text-muted-foreground">Хопап</span>
           </div>
           <div className="flex items-center gap-6">
             {[
@@ -976,7 +976,7 @@ export default function Index() {
               </button>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground">© 2024 Страйкмаркет</p>
+          <p className="text-xs text-muted-foreground">© 2024 Хопап</p>
         </div>
       </footer>
     </div>
