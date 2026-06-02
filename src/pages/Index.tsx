@@ -152,12 +152,6 @@ export default function Index() {
   const [showComingSoon, setShowComingSoon] = useState(false);
   const clockBtnRef = useRef<HTMLButtonElement>(null);
 
-  const getTooltipPos = () => {
-    if (!clockBtnRef.current) return { top: 0, left: 0 };
-    const r = clockBtnRef.current.getBoundingClientRect();
-    return { top: r.top - 8, left: r.left + r.width / 2 };
-  };
-
   const filteredListings = LISTINGS.filter((l) => {
     const catMatch = selectedCategory === "all" || l.category === selectedCategory;
     const searchMatch =
@@ -385,30 +379,22 @@ export default function Index() {
                 </button>
               ))}
               {/* Скоро */}
-              <div className="shrink-0">
+              <div className="shrink-0 relative"
+                onMouseEnter={() => setShowComingSoon(true)}
+                onMouseLeave={() => setShowComingSoon(false)}
+              >
                 <button
                   ref={clockBtnRef}
-                  onMouseEnter={() => setShowComingSoon(true)}
-                  onMouseLeave={() => setShowComingSoon(false)}
-                  onClick={() => setShowComingSoon(!showComingSoon)}
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium uppercase tracking-wide border border-border bg-card text-emerald-500 whitespace-nowrap"
                 >
                   <Icon name="Clock" size={13} className="text-emerald-500" />
                   Скоро
                 </button>
-                {showComingSoon && (() => {
-                  const pos = getTooltipPos();
-                  return (
-                    <div
-                      className="fixed z-50 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in"
-                      style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -100%)' }}
-                      onMouseEnter={() => setShowComingSoon(true)}
-                      onMouseLeave={() => setShowComingSoon(false)}
-                    >
-                      Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
-                    </div>
-                  );
-                })()}
+                {showComingSoon && (
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in z-50 whitespace-normal">
+                    Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
+                  </div>
+                )}
               </div>
             </div>
 
