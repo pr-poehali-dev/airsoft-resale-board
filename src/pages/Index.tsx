@@ -341,14 +341,14 @@ export default function Index() {
               </div>
               <div className="relative px-6 py-10 md:py-14">
                 <p className="text-primary text-xs font-medium uppercase tracking-[0.25em] mb-2">
-                  Создаем надежную площадку для перепродажи
+                  Страйкбольная барахолка
                 </p>
                 <h1 className="font-display text-3xl md:text-5xl font-semibold uppercase tracking-wide text-foreground mb-3 leading-tight">
                   Страйкбольное<br />снаряжение новое и б/у
                 </h1>
                 <p className="text-muted-foreground text-sm max-w-md mb-6">
                   Покупай и продавай снаряжение среди проверенных игроков.<br />
-                  Реальные отзывы. Сообщество.
+                  Реальные отзывы. Создаем надежную площадку для перепродажи.
                 </p>
                 <div className="flex flex-wrap gap-3">
                   <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-display uppercase tracking-wider text-sm px-5 h-9">
