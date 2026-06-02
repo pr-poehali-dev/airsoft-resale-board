@@ -155,7 +155,7 @@ export default function Index() {
   const getTooltipPos = () => {
     if (!clockBtnRef.current) return { top: 0, left: 0 };
     const r = clockBtnRef.current.getBoundingClientRect();
-    return { top: r.top + window.scrollY - 8, left: r.left + window.scrollX + r.width / 2 };
+    return { top: r.top - 8, left: r.left + r.width / 2 };
   };
 
   const filteredListings = LISTINGS.filter((l) => {
