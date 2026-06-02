@@ -13,11 +13,8 @@ type Page = "listings" | "favorites" | "profile" | "messages" | "sellers" | "abo
 
 const CATEGORIES = [
   { id: "all", label: "Все", icon: "LayoutGrid" },
-  { id: "rifles", label: "Приводы", icon: "Crosshair" },
-  { id: "pistols", label: "Пистолеты", icon: "Zap" },
   { id: "gear", label: "Снаряжение", icon: "Shield" },
   { id: "optics", label: "Оптика", icon: "Eye" },
-  { id: "magazines", label: "Магазины", icon: "Package" },
   { id: "bb", label: "Шары и газ", icon: "Circle" },
   { id: "parts", label: "Запчасти", icon: "Settings" },
 ];
@@ -379,6 +376,14 @@ export default function Index() {
                   {cat.label}
                 </button>
               ))}
+            </div>
+
+            {/* Примечание об оружии */}
+            <div className="flex items-start gap-3 bg-card border border-primary/20 rounded-sm p-3 mb-4">
+              <Icon name="Clock" size={15} className="text-primary mt-0.5 shrink-0" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                <span className="text-foreground font-medium">Скоро:</span> категории «Приводы», «Пистолеты» и «Магазины» появятся в ближайшее время — пользователи смогут размещать объявления о продаже страйкбольного оружия.
+              </p>
             </div>
 
             <div className="flex items-center justify-between mb-4">
