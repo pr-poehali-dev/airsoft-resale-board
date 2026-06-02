@@ -363,7 +363,7 @@ export default function Index() {
             </div>
 
             {/* Categories */}
-            <div className="flex gap-2 overflow-x-auto pb-2 mb-5 no-scrollbar items-center">
+            <div className="flex gap-2 overflow-x-auto pb-2 mb-1 no-scrollbar items-center">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
@@ -379,23 +379,27 @@ export default function Index() {
                 </button>
               ))}
               {/* Скоро */}
-              <div className="shrink-0 relative"
+              <button
+                ref={clockBtnRef}
                 onMouseEnter={() => setShowComingSoon(true)}
                 onMouseLeave={() => setShowComingSoon(false)}
+                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium uppercase tracking-wide border border-border bg-card text-emerald-500 whitespace-nowrap"
               >
-                <button
-                  ref={clockBtnRef}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-sm text-xs font-medium uppercase tracking-wide border border-border bg-card text-emerald-500 whitespace-nowrap"
+                <Icon name="Clock" size={13} className="text-emerald-500" />
+                Скоро
+              </button>
+            </div>
+
+            {/* Тултип — вне overflow контейнера */}
+            <div className="relative mb-4 h-0">
+              {showComingSoon && (
+                <div className="absolute left-0 -top-2 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in z-50"
+                  onMouseEnter={() => setShowComingSoon(true)}
+                  onMouseLeave={() => setShowComingSoon(false)}
                 >
-                  <Icon name="Clock" size={13} className="text-emerald-500" />
-                  Скоро
-                </button>
-                {showComingSoon && (
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 bg-card border border-border rounded-sm px-3 py-2.5 text-xs text-muted-foreground shadow-xl text-center animate-fade-in z-50 whitespace-normal">
-                    Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
-                  </div>
-                )}
-              </div>
+                  Скоро появятся категории «Приводы», «Пистолеты» и «Магазины»
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between mb-4">
